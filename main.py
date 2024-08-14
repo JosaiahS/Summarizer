@@ -12,7 +12,6 @@ import openai
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'mp3', 'wav', 'flac', 'mp4'}
-API_key = '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'
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -33,7 +32,6 @@ def upload_audio_and_transcribe():
         file.save(filepath)
 
         if file.filename.endswith('.mp4'):
-            #Executes video transcription process
             if not is_mp4(filepath):
                 return jsonify({"error": "Invalid MP4 file"}), 400
 
@@ -44,21 +42,17 @@ def upload_audio_and_transcribe():
             extract_audio_from_video(compressed_video_path, audio_output_path)
             
             transcript = transcribe_audio_with_whisper(audio_output_path, openai_api_key=API_key)
-            #run transcript through API for summary
             summarizedScript_mp4 = summarize_with_gpt3(transcript, API_key)
 
             return jsonify({"transcript": transcript}), 200
 
         elif file.filename.endswith(('mp3', 'wav', 'flac')):
-            #Executes audio transcription process directly
             transcript = transcribe_audio_with_whisper(filepath, openai_api_key=API_key)
-            #run transcript through API for summary
             summarizedScript_audio = summarize_with_gpt3(transcript, API_key)
 
             return jsonify({"transcript": transcript}), 200
 
         elif file.filename.endswith('.pdf'):
-            #Extract transcript from pdf files
             pdf_summary_text = ""
             pdf_file_path = filepath
             pdf_file = open(pdf_file_path, 'rb')
@@ -91,14 +85,12 @@ def upload_audio_and_transcribe():
 
         elif file.filename.endswith('.docx'):
             transcript = extract_text_from_docx(filepath)
-            #run through chatGPT for summary
             summarizedScript_docx = summarize_with_gpt3(transcript, API_key)
         
         
         
         elif file.filename.endswith('.json'):
             transcript = extract_text_from_json(filepath)
-            #run through chatGPT for summary
             summarizedScript_json = summarize_with_gpt3(transcript, API_key)
 
 
