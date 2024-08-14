@@ -4,12 +4,10 @@ from documentfunction import *
 
 openai.api_key = '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'
 def transcribe_audio_with_whisper(audio_path, openai_api_key):
-    #openai_api_key = openai.api_key
     
     with open(audio_path, "rb") as f:
         response = openai.Audio.transcribe("whisper-1", f)
     
-    #transcript = response.get("data").get("text")
         summary = summarize_with_gpt3(response)
         return summary
 
