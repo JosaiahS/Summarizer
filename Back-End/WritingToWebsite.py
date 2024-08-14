@@ -5,7 +5,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def index(fileInput):    #change for inpit
+def index(fileInput):    
     with open(fileInput, 'r') as file:
         content = file.read()
 
