@@ -9,7 +9,6 @@ import json
 
 MAX_TOKENS = 1200
 
-openai.api_key = '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'
 
 def summarize_with_gpt3(text):
     response = openai.ChatCompletion.create(
@@ -18,7 +17,7 @@ def summarize_with_gpt3(text):
             {"role": "system", "content": "You are a helpful assistant. Summarize the following text for me."},
             {"role": "user", "content": f"{text}"}
         ],
-        max_tokens=150  # Adjust as needed
+        max_tokens=150  
     )
     summary = response.choices[0].message.content
     return summary
@@ -37,7 +36,7 @@ def process_pdf_for_summary(pdf_file_path, pages_per_chunk=5):
             for page_num in range(start_page, end_page):
                 chunk_text += pdf_reader.pages[page_num].extract_text().lower()
             
-            if len(chunk_text) > MAX_TOKENS:  # rudimentary check; consider more detailed token counting
+            if len(chunk_text) > MAX_TOKENS:  
                 chunk_text = chunk_text[:MAX_TOKENS]
             
             response = openai.ChatCompletion.create(
