@@ -11,8 +11,7 @@ import magic
 from flask_cors import CORS
 from flask import render_template
 
-#poop
-openai.api_key = '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'
+
 UPLOAD_FOLDER = 'uploads'
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -34,7 +33,7 @@ def allowed_file(filename):
 
 @app.route('/output')
 def output_page():
-    data = {}  # get the data you want to display. This could be from processing or a database, etc.
+    data = {}  
     return render_template('outputPage.html', data=data)
 
 @app.route('/upload', methods=['POST'])
