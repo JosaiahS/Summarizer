@@ -19,14 +19,12 @@ def upload_file():
             or file.filename.endswith('.mp3')):
         return jsonify({"error": "Invalid file type"}), 400
     
-    # Ensure the upload folder exists
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
 
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
 
-    # Processing of file
     if file.filename.endswith('.mp4'):
         if not is_mp4(filepath):
             return jsonify({"error": "Invalid MP4 file"}), 400
@@ -36,12 +34,10 @@ def upload_file():
 
         audio_output_path = os.path.join(UPLOAD_FOLDER, "extracted_" + os.path.splitext(file.filename)[0] + ".wav")
         extract_audio_from_video(compressed_video_path, audio_output_path)
-        transcriptUN = transcribe_audio_with_whisper(audio_output_path, "API key")  # Replace with your OpenAI API key
-        #plug into chatgpt
+        transcriptUN = transcribe_audio_with_whisper(audio_output_path, "API key") 
 
 
     else: 
-        # Plug into chatgpt api
         pass
 
     return jsonify({"message": "File processed successfully"}), 200
