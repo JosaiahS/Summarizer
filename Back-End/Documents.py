@@ -7,7 +7,6 @@ import json
 
 MAX_TOKENS = 1200
 
-openai.api_key = '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'
 
 
 def summarize_with_gpt3(text, api_key):
@@ -17,7 +16,7 @@ def summarize_with_gpt3(text, api_key):
             {"role": "system", "content": "You are a helpful assistant. Summarize the following text for me."},
             {"role": "user", "content": f"{text}"}
         ],
-        max_tokens=150  # Adjust as needed
+        max_tokens=150  
     )
     summary = response.choices[0].message.content
     return summary
